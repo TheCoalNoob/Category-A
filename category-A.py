@@ -140,6 +140,16 @@ def create_table(cursor):
     """
 
     # Write CREATE TABLE code here
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS student_records (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            date TEXT,
+            name TEXT,
+            course TEXT,
+            score INTEGER,
+            status TEXT
+        )
+    """)
     pass
 
 
@@ -153,8 +163,19 @@ def insert_records(cursor, records):
     """
 
     # Write INSERT INTO code here
+    for record in records:
+        cursor.execute("""
+            INSERT INTO student_records
+            (date, name, course, score, status)
+            VALUES (?, ?, ?, ?, ?)
+        """, (
+            record["date"],
+            record["name"],
+            record["course"],
+            record["score"],
+            record["status"]
+        ))
     pass
-
 
 def select_records(cursor):
     """
@@ -166,6 +187,7 @@ def select_records(cursor):
     """
 
     # Write SELECT code here
+    cursor.execute("SELECT * FROM student_records")
     pass
 
 
